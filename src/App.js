@@ -27,18 +27,17 @@ class App extends Component {
 
   render() {
     const { first, second, third, operation } = this.state;
-
     return (
       <main className="app">
         <header>
           <h1>Movie Maths</h1>
         </header>
         <div className="equation">
-          <Movie movie={first} onChange={(movie) => this.change('first', movie)} />
+          <Movie movie={first} loading onChange={(movie) => this.change('first', movie)} />
           <Operator operator={operation} onClick={this.changeOperation} />
-          <Movie movie={second} onChange={(movie) => this.change('second', movie)} />
+          <Movie movie={second} loading onChange={(movie) => this.change('second', movie)} />
           <Operator operator="equals" />
-          <Movie movie={third} readOnly loading />
+          <Movie movie={third} loading readOnly />
         </div>
         <footer>
           <p>
@@ -65,7 +64,7 @@ class App extends Component {
   async change(which, movie) {
     this.setState({ [which]: movie });
     if (!movie || !this.state.first || !this.state.second) {
-      this.setState({ third: undefined, loading: true });
+      this.setState({ third: undefined, loading: false });
     } else {
       await this.calculateMovies(this.state.operation);
     }
