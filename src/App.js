@@ -75,7 +75,6 @@ class App extends Component {
     const movieOperation = operation === 'plus' ? Movies.addMovies.bind(Movies) : Movies.subtractMovies.bind(Movies);
 
     const movieId = await movieOperation(this.state.first.id, this.state.second.id);
-    // Use actual movieId
     const resultMovie = await Movies.getByImdbId(movieId);
 
     const movieObject = {
