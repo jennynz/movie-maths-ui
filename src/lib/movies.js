@@ -1,7 +1,7 @@
 class Movies {
   constructor(apiKey) {
     this.apiKey = apiKey;
-    this.hannibalUrl = 'ec2-54-82-46-12.compute-1.amazonaws.com';
+    this.hannibalUrl = 'ec2-34-230-43-182.compute-1.amazonaws.com';
   }
 
   async configuration(key) {
