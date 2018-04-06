@@ -29,8 +29,6 @@ export default class Movie extends Component {
 
   render() {
     const { movie, loading, readOnly } = this.props;
-    console.log(movie);
-    console.log(loading);
     return (
       <div
         className={classNames('movie', {

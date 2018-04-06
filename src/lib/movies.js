@@ -1,7 +1,7 @@
 class Movies {
   constructor(apiKey) {
     this.apiKey = apiKey;
-    this.hannibalUrl = 'ec2-34-230-43-182.compute-1.amazonaws.com';
+    this.hannibalUrl = 'ec2-54-173-36-127.compute-1.amazonaws.com';
   }
 
   async configuration(key) {
@@ -12,14 +12,20 @@ class Movies {
   }
 
   async search(title, cache) {
+    const matchingKeys = Object.keys(cache).filter((key) => {
+      return title.includes(key);
+    });
+    console.log(title);
+    console.log(Object.keys(cache));
     let hannibal;
-    if (cache[title]) {
-      hannibal = this.searchCache(title, cache);
+    if (matchingKeys.length > 0) {
+      console.log('Searching from cache - yay!');
+      hannibal = this.searchCache(title, cache, matchingKeys);
     } else {
+      console.log('Querying DB - boo');
       hannibal = await this.fetchHannibal(title);
     }
-    console.log('Search results:', hannibal);
-    return hannibal.slice(0, 10).map((movie) => ({
+    return hannibal.map((movie) => ({
       id: movie.IMDbId,
       title: movie.simpleTitle,
       year: String(movie.release_year),
@@ -27,10 +33,21 @@ class Movies {
     }));
   }
 
-  searchCache(title, cache) {
-    return cache.filter((key) => {
-      return key.title.toLowerCase().includes(title);
+  searchCache(searchTerm, cache, keys) {
+    const longestKeyMatch = keys.reduce((a, b) => {
+      return a.length > b.length ? a : b;
     });
+    console.log(longestKeyMatch);
+    function filterCache(searchTerm) {
+      return (result) => {
+        return result.title.toLowerCase().includes(searchTerm);
+      };
+    }
+    // const searchResult = cache[longestKeyMatch].filter((result) => {
+    //   return result.title.toLowerCase().includes(longestKeyMatch.toLowerCase());
+    // });
+    const searchResult = cache[longestKeyMatch].filter(filterCache(searchTerm));
+    return searchResult;
   }
 
   async getImage(title, year) {

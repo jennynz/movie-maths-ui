@@ -88,9 +88,10 @@ export default class MovieSelector extends Component {
   }
 
   async doUpdate(title) {
+    title = title.toLowerCase();
     const movies = await Movies.search(title, this.cache);
+    this.setState({ movies: movies.slice(0, 10) });
     this.cache[title] = movies;
-    this.setState({ movies });
   }
 
   clearMovie() {
