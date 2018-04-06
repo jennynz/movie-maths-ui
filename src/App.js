@@ -64,7 +64,7 @@ class App extends Component {
   async change(which, movie) {
     this.setState({ [which]: movie });
     if (!movie || !this.state.first || !this.state.second) {
-      this.setState({ third: undefined, loading: false });
+      this.setState({ third: undefined, loading: true });
     } else {
       await this.calculateMovies(this.state.operation);
     }
