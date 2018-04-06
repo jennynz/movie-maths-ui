@@ -28,6 +28,8 @@ export default class MovieSelector extends Component {
     movies: [],
   };
 
+  cache = {};
+
   render() {
     const { movie, readOnly } = this.props;
     return (
@@ -86,7 +88,8 @@ export default class MovieSelector extends Component {
   }
 
   async doUpdate(title) {
-    const movies = await Movies.search(title);
+    const movies = await Movies.search(title, this.cache);
+    this.cache[title] = movies;
     this.setState({ movies });
   }
 

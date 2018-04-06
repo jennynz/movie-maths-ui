@@ -11,8 +11,13 @@ class Movies {
     return this._configuration[key];
   }
 
-  async search(title) {
-    const hannibal = await this.fetchHannibal(title);
+  async search(title, cache) {
+    let hannibal;
+    if (cache[title]) {
+      hannibal = this.searchCache(title, cache);
+    } else {
+      hannibal = await this.fetchHannibal(title);
+    }
     console.log('Search results:', hannibal);
     return hannibal.slice(0, 10).map((movie) => ({
       id: movie.IMDbId,
@@ -20,6 +25,12 @@ class Movies {
       year: String(movie.release_year),
       image: 'http://weknowyourdreams.com/images/dog/dog-13.jpg',
     }));
+  }
+
+  searchCache(title, cache) {
+    return cache.filter((key) => {
+      return key.title.toLowerCase().includes(title);
+    });
   }
 
   async getImage(title, year) {
