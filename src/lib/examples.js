@@ -13,7 +13,7 @@ async function makeMovieObject(imdbId) {
 async function getExampleEquation() {
   const equations = [
     {
-      first: await makeMovieObject('tt0054757'), // The Comancheros
+      first: await makeMovieObject('tt2404435'), // The Magnificent Seven
       second: await makeMovieObject('tt0090605'), // Aliens
       third: await makeMovieObject('tt0409847'), // Coybows and Aliens
       operation: 'plus',
