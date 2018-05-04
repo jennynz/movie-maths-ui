@@ -86,8 +86,15 @@ export default class MovieSelector extends Component {
   }
 
   async doUpdate(title) {
+    // Some searches take longer than others and end up updating the results incorrectly
+    // if we set a state in the object and only update when that state matches we should
+    // only update for the most recently _started_ request
+    const random = Math.random();
+    this.lock = random;
     const movies = await Movies.search(title);
-    this.setState({ movies });
+    if (this.lock === random) {
+      this.setState({ movies });
+    }
   }
 
   clearMovie() {
